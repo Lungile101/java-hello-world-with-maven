@@ -4,10 +4,7 @@ pipeline {
         maven "Apache Maven 3.9.8"
         }
     stages {
-        stage('master-branch') {
-            when {
-                branch 'master'
-            }
+        stage('build') {
             steps {
                 sh "mvn clean deploy -Dnew.version=${params.VERSION} -Dmule.environment=dev "
 	            sh "mvn clean deploy -Dnew.version=${params.VERSION} -DmuleDeploy -Dmule.environment=dev -Ddeployment.environment=rtf-dev -X"
