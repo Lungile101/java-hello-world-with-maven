@@ -1,7 +1,7 @@
 pipeline {
         agent any
     tools {
-        maven "apache-maven-3.9.8"
+        maven "Apache Maven 3.9.8"
         }
     stages {
         stage('development-branch') {
