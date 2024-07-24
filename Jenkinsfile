@@ -4,7 +4,7 @@ pipeline {
         maven "Apache Maven 3.9.8"
         }
     stages {
-        stage('development-branch') {
+        stage('master-branch') {
             when {
                 branch 'master'
             }
