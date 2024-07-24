@@ -1,20 +1,24 @@
-pipeline{
-    agent any
-
+pipeline {
+        agent any
     tools {
-         maven 'Apache Maven 3.9.8'
-         jdk 'java-17.0.11'
-    }
-
-    stages{
-        stage('checkout'){
-            steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github access', url: 'https://github.com/sreenivas449/java-hello-world-with-maven.git']]])
-            }
+        maven 'apache-maven-3.8.5'
         }
-        stage('build'){
-            steps{
-               bat 'mvn package'
+    stages {
+        stage('Prepare') {
+                steps {
+                        configFileProvider([configFile(fileId: "59cb371e-a339-4ce6-9b80-39e3771efe08" , targetLocation: 'env.groovy', variable: 'ENV')]) {
+                            load "env.groovy";
+                        }
+                }
+        }
+        stage('development-branch') {
+            when {
+                branch 'master'
+            }
+            steps {
+                sh "mvn clean deploy -Dnew.version=${params.VERSION} -Dmule.environment=dev "
+	            sh "mvn clean deploy -Dnew.version=${params.VERSION} -DmuleDeploy -Dmule.environment=dev -Ddeployment.environment=rtf-dev -X"
+				}
             }
         }
     }
